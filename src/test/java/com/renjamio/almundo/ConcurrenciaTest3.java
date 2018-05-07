@@ -23,14 +23,13 @@ import com.renjamio.almundo.model.TipoEmpleado;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 @RunWith(ConcurrentTestRunner.class)
-public class ConcurrenciaTest2 extends TestCase {
+public class ConcurrenciaTest3 extends TestCase {
 
 	private Dispatcher dispatcher;
 
-	private final static int THREAD_COUNT = 11;
+	private final static int THREAD_COUNT = 10;
 
 	@Before
 	public void inicializar() {
@@ -41,7 +40,6 @@ public class ConcurrenciaTest2 extends TestCase {
 		Empleado empleadoOperador5 = Mockito.mock(Empleado.class);
 		Empleado empleadoOperador6 = Mockito.mock(Empleado.class);
 		Empleado empleadoOperador7 = Mockito.mock(Empleado.class);
-		Empleado empleadoOperador8 = Mockito.mock(Empleado.class);
 		Empleado empleadoSupervisor1 = Mockito.mock(Empleado.class);
 		Empleado empleadoSupervisor2 = Mockito.mock(Empleado.class);
 		Empleado empleadoDirector = Mockito.mock(Empleado.class);
@@ -57,7 +55,6 @@ public class ConcurrenciaTest2 extends TestCase {
 		Mockito.when(empleadoOperador5.getTipoEmpleado()).thenReturn(tipoOperador);
 		Mockito.when(empleadoOperador6.getTipoEmpleado()).thenReturn(tipoOperador);
 		Mockito.when(empleadoOperador7.getTipoEmpleado()).thenReturn(tipoOperador);
-		Mockito.when(empleadoOperador8.getTipoEmpleado()).thenReturn(tipoOperador);
 		Mockito.when(empleadoSupervisor1.getTipoEmpleado()).thenReturn(tipoSupervisor);
 		Mockito.when(empleadoSupervisor2.getTipoEmpleado()).thenReturn(tipoSupervisor);
 		Mockito.when(empleadoDirector.getTipoEmpleado()).thenReturn(tipoDirector);
@@ -72,7 +69,6 @@ public class ConcurrenciaTest2 extends TestCase {
 		dispatcher.agregarEmpleadoDisponible(empleadoOperador5);
 		dispatcher.agregarEmpleadoDisponible(empleadoOperador6);
 		dispatcher.agregarEmpleadoDisponible(empleadoOperador7);
-		dispatcher.agregarEmpleadoDisponible(empleadoOperador8);
 		dispatcher.agregarEmpleadoDisponible(empleadoSupervisor1);
 		dispatcher.agregarEmpleadoDisponible(empleadoSupervisor2);
 		dispatcher.agregarEmpleadoDisponible(empleadoDirector);
@@ -82,8 +78,8 @@ public class ConcurrenciaTest2 extends TestCase {
 
 	/**
 	 * @author raenjamio
-	 * Test donde para verificar que si la cantidad de llamadas e hilos es mayor a 10 por mas que haya empleados disponibles 
-	 * pone la llamada en espera
+	 * Test donde para verificar que si la cantidad de llamadas e hilos es igual que la cantidad de empleados disponibles
+	 * no hay ninguna llamada en espera
 	 */
 
 	@Test
@@ -92,7 +88,7 @@ public class ConcurrenciaTest2 extends TestCase {
 		HiloLlamada hilo = new HiloLlamada(5, dispatcher, new Llamada());
 		hilo.run();
 		assertTrue(dispatcher.getCantLlamadasEnCurso() <= 10);
-		assertTrue(dispatcher.getLlamadasEnEspera().size() == 1);
+		assertTrue(dispatcher.getLlamadasEnEspera().size() == 0);
 	}
 
 	public Dispatcher getDispatcher() {

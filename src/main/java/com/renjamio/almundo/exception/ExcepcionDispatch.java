@@ -1,4 +1,4 @@
-package com.renjamio.exception;
+package com.renjamio.almundo.exception;
 
 public class ExcepcionDispatch extends Exception {
 	/**

@@ -91,7 +91,7 @@ public class Empleado {
 
 	@Override
 	public String toString() {
-		return "Empleado [id=" + id + ", tipoEmpleado=" + tipoEmpleado + ", nombre=" + nombre + ", apellido=" + apellido
+		return "Empleado [id=" + id + ", tipoEmpleado=" + tipoEmpleado.getCodigo() + ", nombre=" + nombre + ", apellido=" + apellido
 				+ "]";
 	}
 

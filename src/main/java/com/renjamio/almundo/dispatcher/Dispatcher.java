@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Queue;
 import java.util.logging.Logger;
 
+import com.renjamio.almundo.exception.ExcepcionDispatch;
 import com.renjamio.almundo.model.Empleado;
 import com.renjamio.almundo.model.Llamada;
 import com.renjamio.almundo.model.Operador;
 import com.renjamio.almundo.model.Supervisor;
-import com.renjamio.exception.ExcepcionDispatch;
 
 /**
  * @author raenjamio
@@ -55,7 +55,7 @@ public class Dispatcher {
 	 * @throws InterruptedException
 	 */
 	public synchronized void dispatchCall(Llamada llamada) throws ExcepcionDispatch, InterruptedException {
-		// LOGGER.info("**** dispatchCall *****");
+		LOGGER.info("**** dispatchCall *****");
 		Empleado empleadoLibre = getEmpleadoDisponible();
 		if (empleadoLibre == null || getCantLlamadasEnCurso() >= CANT_LLAMADAS_CONCURRENTES) {
 			LOGGER.info("+++++++Llamada Encolada e hilo esperando+++++ ");
@@ -64,9 +64,9 @@ public class Dispatcher {
 			empleadoLibre = getEmpleadoDisponible();
 		}
 		asignarLlamadaAEmpleado(llamada, empleadoLibre);
-		System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-		System.out.println("Empleado asignado " + empleadoLibre + " asignado a llamada " + llamada);
-		System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+		LOGGER.info("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+		LOGGER.info("Empleado asignado " + empleadoLibre + " asignado a llamada " + llamada);
+		LOGGER.info("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 
 	}
 
@@ -117,14 +117,14 @@ public class Dispatcher {
 	 */
 	private void desasignarEmpleadoALlamada(Llamada llamada) {
 		agregarEmpleadoDisponible(llamada.getEmpleadoAsignado());
-		System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-		System.out.println("Empleado desasignado " + llamada.getEmpleadoAsignado() + " asignado a llamada " + llamada);
-		System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+		LOGGER.info("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+		LOGGER.info("Empleado desasignado " + llamada.getEmpleadoAsignado() + " asignado a llamada " + llamada);
+		LOGGER.info("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 		llamada.setEmpleadoAsignado(null);
 		setCantLlamadasEnCurso(getCantLlamadasEnCurso() - 1);
-		System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-		System.out.println("LLAMADAS EN CURSO " + getCantLlamadasEnCurso());
-		System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+		LOGGER.info("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+		LOGGER.info("LLAMADAS EN CURSO " + getCantLlamadasEnCurso());
+		LOGGER.info("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 	}
 
 	/**
@@ -140,7 +140,9 @@ public class Dispatcher {
 		llamada.setEmpleadoAsignado(empleadoLibre);
 		eliminarDeDisponibles(empleadoLibre);
 		setCantLlamadasEnCurso(getCantLlamadasEnCurso() + 1);
-		System.out.println("LLAMADAS EN CURSO " + getCantLlamadasEnCurso());
+		LOGGER.info("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+		LOGGER.info("LLAMADAS EN CURSO " + getCantLlamadasEnCurso());
+		LOGGER.info("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 	}
 
 	/**
@@ -187,7 +189,9 @@ public class Dispatcher {
 	 * @param empleado
 	 */
 	public void agregarEmpleadoDisponible(Empleado empleado) {
-		System.out.println(" agregarEmpleadoDisponible" + empleado);
+		LOGGER.info("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+		LOGGER.info(" agregarEmpleadoDisponible" + empleado);
+		LOGGER.info("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 		if (empleado.getTipoEmpleado() instanceof Operador) {
 			operadoresDisponibles.add(empleado);
 		} else if (empleado.getTipoEmpleado() instanceof Supervisor) {

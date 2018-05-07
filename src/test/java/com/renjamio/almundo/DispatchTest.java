@@ -2,23 +2,27 @@ package com.renjamio.almundo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.mockito.Mockito;
 
+import com.renjamio.almundo.controller.HiloLlamada;
 import com.renjamio.almundo.dispatcher.Dispatcher;
+import com.renjamio.almundo.exception.ExcepcionDispatch;
 import com.renjamio.almundo.model.Director;
 import com.renjamio.almundo.model.Empleado;
 import com.renjamio.almundo.model.Llamada;
 import com.renjamio.almundo.model.Operador;
 import com.renjamio.almundo.model.Supervisor;
 import com.renjamio.almundo.model.TipoEmpleado;
-import com.renjamio.controller.HiloLlamada;
-import com.renjamio.exception.ExcepcionDispatch;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
 public class DispatchTest extends TestCase {
+	
+	private final static Logger LOGGER = Logger.getLogger("DispatchTest");
 
 	public DispatchTest(String testName) {
 		super(testName);
@@ -41,11 +45,9 @@ public class DispatchTest extends TestCase {
 			dispatcher.dispatchCall(llamada2);
 			dispatcher.dispatchCall(llamada3);
 		} catch (ExcepcionDispatch e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "Error en testDispatchMismaCantLlamadasYOperadores", e);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "Error en testDispatchMismaCantLlamadasYOperadores", e);
 		}
 		Assert.assertTrue(dispatcher.getDirectoresDisponibles().size() == 1);
 		Assert.assertTrue(dispatcher.getSupervisoresDisponibles().size() == 1);
@@ -73,11 +75,9 @@ public class DispatchTest extends TestCase {
 			dispatcher.dispatchCall(llamada2);
 			dispatcher.dispatchCall(llamada3);
 		} catch (ExcepcionDispatch e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "Error en testDispatchMasCantLlamadasQueOperadores", e);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "Error en testDispatchMasCantLlamadasQueOperadores", e);
 		}
 		Assert.assertTrue(dispatcher.getDirectoresDisponibles().size() == 1);
 		Assert.assertTrue(dispatcher.getSupervisoresDisponibles().size() == 0);
@@ -108,11 +108,9 @@ public class DispatchTest extends TestCase {
 			dispatcher.dispatchCall(llamada4);
 			dispatcher.dispatchCall(llamada5);
 		} catch (ExcepcionDispatch e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "Error en testDispatchMasCantLlamadasQueOperadoresYsupervisores", e);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "Error en testDispatchMasCantLlamadasQueOperadoresYsupervisores", e);
 		}
 		Assert.assertTrue(dispatcher.getDirectoresDisponibles().size() == 0);
 		Assert.assertTrue(dispatcher.getSupervisoresDisponibles().size() == 0);
@@ -145,9 +143,9 @@ public class DispatchTest extends TestCase {
 			dispatcher.dispatchCall(llamada5);
 			//dispatcher.dispatchCall(llamada6);
 		} catch (ExcepcionDispatch e) {
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "Error en TestDispatchMasCantLlamadasQueEmpleados", e);
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "Error en TestDispatchMasCantLlamadasQueEmpleados", e);
 		}
 		Assert.assertTrue(dispatcher.getDirectoresDisponibles().size() == 0);
 		Assert.assertTrue(dispatcher.getSupervisoresDisponibles().size() == 0);
@@ -177,8 +175,7 @@ public class DispatchTest extends TestCase {
 			dispatcher.unDispatchCall(llamada1);
 			//dispatcher.dispatchCall(llamada6);
 		} catch (ExcepcionDispatch e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "Error en testUnDispatch", e);
 		}
 		Assert.assertTrue(dispatcher.getOperadoresDisponibles().size() == 1);
 		Assert.assertEquals(dispatcher.getOperadoresDisponibles().get(0), empleadoOperador1);

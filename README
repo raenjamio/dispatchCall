@@ -1,0 +1,11 @@
+ 
+Requerimientos
+
+JDK 1.7
+Maven 3.2
+Eclipse Mars
+
+Para correr la aplicacion ejercutar java -jar dispatchCall-1.0-SNAPSHOT.jar desde la carpeta target
+
+
+Hay un documento con las pruebas llamado Evidencias

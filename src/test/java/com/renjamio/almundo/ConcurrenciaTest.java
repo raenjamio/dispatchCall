@@ -11,18 +11,19 @@ import org.mockito.Mockito;
 
 import com.anarsoft.vmlens.concurrent.junit.ConcurrentTestRunner;
 import com.anarsoft.vmlens.concurrent.junit.ThreadCount;
+import com.renjamio.almundo.controller.HiloLlamada;
 import com.renjamio.almundo.dispatcher.Dispatcher;
+import com.renjamio.almundo.exception.ExcepcionDispatch;
 import com.renjamio.almundo.model.Director;
 import com.renjamio.almundo.model.Empleado;
 import com.renjamio.almundo.model.Llamada;
 import com.renjamio.almundo.model.Operador;
 import com.renjamio.almundo.model.Supervisor;
 import com.renjamio.almundo.model.TipoEmpleado;
-import com.renjamio.controller.HiloLlamada;
-import com.renjamio.exception.ExcepcionDispatch;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 @RunWith(ConcurrentTestRunner.class)
 public class ConcurrenciaTest extends TestCase {
@@ -30,101 +31,20 @@ public class ConcurrenciaTest extends TestCase {
 	private Dispatcher dispatcher;
 
 	private final static int THREAD_COUNT = 10;
+	
 
 	@Before
 	public void inicializar() {
-		Empleado empleadoOperador1 = new Empleado(new Operador(), "dddd", "asdf");// Mockito.mock(Empleado.class);
-		Empleado empleadoOperador2 = Mockito.mock(Empleado.class);
-		Empleado empleadoOperador3 = Mockito.mock(Empleado.class);
-
-		Empleado empleadoOperador4 = Mockito.mock(Empleado.class);
-		Empleado empleadoOperador5 = Mockito.mock(Empleado.class);
-
-		TipoEmpleado tipoOperador = Mockito.mock(Operador.class);
-		TipoEmpleado tipoSupervisor = Mockito.mock(Supervisor.class);
-		TipoEmpleado tipoDirector = Mockito.mock(Director.class);
-
-		// Mockito.when(empleadoOperador1.getTipoEmpleado()).thenReturn(tipoOperador);
-		Mockito.when(empleadoOperador2.getTipoEmpleado()).thenReturn(tipoOperador);
-		Mockito.when(empleadoOperador3.getTipoEmpleado()).thenReturn(tipoOperador);
-		Mockito.when(empleadoOperador4.getTipoEmpleado()).thenReturn(tipoSupervisor);
-		Mockito.when(empleadoOperador5.getTipoEmpleado()).thenReturn(tipoDirector);
-
-		Dispatcher dispatcher = new Dispatcher();
-		dispatcher.agregarEmpleadoDisponible(empleadoOperador1);
-		dispatcher.agregarEmpleadoDisponible(empleadoOperador2);
-		dispatcher.agregarEmpleadoDisponible(empleadoOperador3);
-		// dispatcher.agregarEmpleadoDisponible(empleadoOperador4);
-		// dispatcher.agregarEmpleadoDisponible(empleadoOperador5);
-
-		setDispatcher(dispatcher);
-	}
-
-	@Test(timeout = 10000)
-	@ThreadCount(THREAD_COUNT)
-	public void testConcurrencia() {
-		Llamada llamada = new Llamada();
-		// llamada.setDuracion(5000);
-		// dispatcher.dispatchCall(new Llamada());
-		HiloLlamada tarea1 = new HiloLlamada(10, getDispatcher(), llamada);
-		tarea1.start();
-
-	}
-
-	/**
-	 * Testamos que cuando hay operadores disponibles solo asigne operadores a
-	 * la llamada
-	 */
-	public void TestDispatchOk() {
-
-		Empleado empleadoOperador1 = new Empleado(new Operador(), "dddd", "asdf");// Mockito.mock(Empleado.class);
-		Empleado empleadoOperador2 = Mockito.mock(Empleado.class);
-		Empleado empleadoOperador3 = Mockito.mock(Empleado.class);
-
-		Empleado empleadoOperador4 = Mockito.mock(Empleado.class);
-		Empleado empleadoOperador5 = Mockito.mock(Empleado.class);
-
-		TipoEmpleado tipoOperador = Mockito.mock(Operador.class);
-		TipoEmpleado tipoSupervisor = Mockito.mock(Supervisor.class);
-		TipoEmpleado tipoDirector = Mockito.mock(Director.class);
-
-		// Mockito.when(empleadoOperador1.getTipoEmpleado()).thenReturn(tipoOperador);
-		Mockito.when(empleadoOperador2.getTipoEmpleado()).thenReturn(tipoOperador);
-		Mockito.when(empleadoOperador3.getTipoEmpleado()).thenReturn(tipoOperador);
-		Mockito.when(empleadoOperador4.getTipoEmpleado()).thenReturn(tipoSupervisor);
-		Mockito.when(empleadoOperador5.getTipoEmpleado()).thenReturn(tipoDirector);
-
-		Dispatcher dispatcher = new Dispatcher();
-		dispatcher.agregarEmpleadoDisponible(empleadoOperador1);
-		dispatcher.agregarEmpleadoDisponible(empleadoOperador2);
-		dispatcher.agregarEmpleadoDisponible(empleadoOperador3);
-		// dispatcher.agregarEmpleadoDisponible(empleadoOperador4);
-		// dispatcher.agregarEmpleadoDisponible(empleadoOperador5);
-
-		List<HiloLlamada> hilos = buildHilosLlamadas(3, dispatcher);
-
-		int i = 0;
-		HiloLlamada hilo = new HiloLlamada(5 + i, dispatcher, new Llamada());
-		hilo.start();
-		/*
-		 * for (HiloLlamada hiloLlamada : hilos) { hiloLlamada.start();
-		 * //assertTrue(dispatcher.getOperadoresDisponibles().size() ==
-		 * hilos.size() - i - 1); }
-		 */
-		// assertTrue(dispatcher.getOperadoresDisponibles().size() == 0);
-		// assertTrue(dispatcher.getDirectoresDisponibles().size() == 1);
-		// assertTrue(dispatcher.getSupervisoresDisponibles().size() == 1);
-
-	}
-
-	public void TestDispatchOk2() {
-
 		Empleado empleadoOperador1 = Mockito.mock(Empleado.class);
 		Empleado empleadoOperador2 = Mockito.mock(Empleado.class);
 		Empleado empleadoOperador3 = Mockito.mock(Empleado.class);
-
 		Empleado empleadoOperador4 = Mockito.mock(Empleado.class);
 		Empleado empleadoOperador5 = Mockito.mock(Empleado.class);
+		Empleado empleadoOperador6 = Mockito.mock(Empleado.class);
+		Empleado empleadoOperador7 = Mockito.mock(Empleado.class);
+		Empleado empleadoSupervisor1 = Mockito.mock(Empleado.class);
+		Empleado empleadoSupervisor2 = Mockito.mock(Empleado.class);
+		Empleado empleadoDirector = Mockito.mock(Empleado.class);
 
 		TipoEmpleado tipoOperador = Mockito.mock(Operador.class);
 		TipoEmpleado tipoSupervisor = Mockito.mock(Supervisor.class);
@@ -133,8 +53,15 @@ public class ConcurrenciaTest extends TestCase {
 		Mockito.when(empleadoOperador1.getTipoEmpleado()).thenReturn(tipoOperador);
 		Mockito.when(empleadoOperador2.getTipoEmpleado()).thenReturn(tipoOperador);
 		Mockito.when(empleadoOperador3.getTipoEmpleado()).thenReturn(tipoOperador);
-		Mockito.when(empleadoOperador4.getTipoEmpleado()).thenReturn(tipoSupervisor);
-		Mockito.when(empleadoOperador5.getTipoEmpleado()).thenReturn(tipoDirector);
+		Mockito.when(empleadoOperador4.getTipoEmpleado()).thenReturn(tipoOperador);
+		Mockito.when(empleadoOperador5.getTipoEmpleado()).thenReturn(tipoOperador);
+		Mockito.when(empleadoOperador6.getTipoEmpleado()).thenReturn(tipoOperador);
+		Mockito.when(empleadoOperador7.getTipoEmpleado()).thenReturn(tipoOperador);
+		Mockito.when(empleadoSupervisor1.getTipoEmpleado()).thenReturn(tipoSupervisor);
+		Mockito.when(empleadoSupervisor2.getTipoEmpleado()).thenReturn(tipoSupervisor);
+		Mockito.when(empleadoDirector.getTipoEmpleado()).thenReturn(tipoDirector);
+		
+		
 
 		Dispatcher dispatcher = new Dispatcher();
 		dispatcher.agregarEmpleadoDisponible(empleadoOperador1);
@@ -142,35 +69,28 @@ public class ConcurrenciaTest extends TestCase {
 		dispatcher.agregarEmpleadoDisponible(empleadoOperador3);
 		dispatcher.agregarEmpleadoDisponible(empleadoOperador4);
 		dispatcher.agregarEmpleadoDisponible(empleadoOperador5);
+		dispatcher.agregarEmpleadoDisponible(empleadoOperador6);
+		dispatcher.agregarEmpleadoDisponible(empleadoOperador7);
+		dispatcher.agregarEmpleadoDisponible(empleadoSupervisor1);
+		dispatcher.agregarEmpleadoDisponible(empleadoSupervisor2);
+		//dispatcher.agregarEmpleadoDisponible(empleadoDirector);
 
-		List<HiloLlamada> hilos = buildHilosLlamadas(3, dispatcher);
-
-		for (HiloLlamada hiloLlamada : hilos) {
-			hiloLlamada.start();
-			// assertTrue(dispatcher.getOperadoresDisponibles().size() ==
-			// hilos.size() - i - 1);
-		}
-		// assertTrue(dispatcher.getOperadoresDisponibles().size() == 0);
-		// assertTrue(dispatcher.getDirectoresDisponibles().size() == 1);
-		// assertTrue(dispatcher.getSupervisoresDisponibles().size() == 1);
-
+		setDispatcher(dispatcher);
 	}
 
-	private List<HiloLlamada> buildHilosLlamadas(int cantLlamadas, Dispatcher dispatcher) {
-		List<Llamada> llamadasAux = new ArrayList<Llamada>();
-		List<HiloLlamada> hilosAux = new ArrayList<HiloLlamada>();
-
-		for (int i = 0; i < cantLlamadas; i++) {
-			Llamada llamada = new Llamada();
-			llamadasAux.add(llamada);
-		}
-
-		for (int i = 0; i < cantLlamadas; i++) {
-			HiloLlamada hilo = new HiloLlamada(5 + i, dispatcher, llamadasAux.get(i));
-			hilosAux.add(hilo);
-		}
-
-		return hilosAux;
+	/**
+	 * @author raenjamio
+	 * Test donde para verificar que si la cantidad de llamadas e hilos es mayor que la cantidad de empleados disponibles
+	 * hay una llamada en espera, ya que hay 9 empleados disponibles y 10 llamadas (hilos)
+	 */
+	
+	@Test
+	@ThreadCount(THREAD_COUNT)
+	public void testMasHilosQueEmpleados() {
+		HiloLlamada hilo = new HiloLlamada(5, dispatcher, new Llamada());
+		hilo.run();
+		assertTrue(dispatcher.getCantLlamadasEnCurso() <= 9);
+		assertTrue(dispatcher.getLlamadasEnEspera().size() == 1);
 	}
 
 	private Dispatcher builDispatcher() {

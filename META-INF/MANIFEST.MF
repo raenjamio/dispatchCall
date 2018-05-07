@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Main-Class: com.renjamio.almundo.App 
+Created-By: 1.7.0_51
+Built-By: renjamio
+
