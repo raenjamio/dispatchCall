@@ -7,5 +7,8 @@ Eclipse Mars
 
 Para correr la aplicacion ejercutar java -jar dispatchCall-1.0-SNAPSHOT.jar desde la carpeta target
 
+Cuando se ejecuta la aplicación se dispararan 12 hilos con 12 llamadas a ser atendidas por 11 empleados.
+
+Pero al tener restricción de 10 hilos deben haber dos llamadas esperando encoladas.
 
 Hay un documento con las pruebas llamado Evidencias
