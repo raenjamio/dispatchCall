@@ -43,7 +43,7 @@ public class Llamada {
 
 	@Override
 	public String toString() {
-		return "Llamada [duracion=" + duracion + ", id=" + id + ", empleadoAsignadoId=" + empleadoAsignado.getId() + "]";
+		return "Llamada [duracion seg=" + duracion/1000 + ", id=" + id + ", empleadoAsignadoId=" + empleadoAsignado.getId() + "]";
 	}
 	
 	

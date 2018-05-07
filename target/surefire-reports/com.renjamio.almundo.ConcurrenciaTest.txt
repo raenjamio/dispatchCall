@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.renjamio.almundo.ConcurrenciaTest
 -------------------------------------------------------------------------------
-Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 10.121 sec
+Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 10.132 sec
